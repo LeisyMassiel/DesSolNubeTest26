@@ -2,19 +2,14 @@
 include("conexion.php");
 $con = conexion();
 
-$sql = "
-SELECT
-    current_database(),
-    current_user,
-    current_schema(),
-    inet_server_addr()
-";
+$doc = $_POST["doc"];
+$nom = $_POST["nom"];
+$ape = $_POST["ape"];
+$dir = $_POST["dir"];
+$cel = $_POST["cel"];
 
-$resultado = pg_query($con, $sql);
-$fila = pg_fetch_assoc($resultado);
+$sql = "insert into persona values(default,'$doc','$nom','$ape','$dir','$cel')";
+pg_query($con, $sql);
 
-echo "Base de datos: " . $fila["current_database"] . "<br>";
-echo "Usuario: " . $fila["current_user"] . "<br>";
-echo "Esquema: " . $fila["current_schema"] . "<br>";
-echo "Servidor: " . $fila["inet_server_addr"] . "<br>";
+header("location:index.php");
 ?>
