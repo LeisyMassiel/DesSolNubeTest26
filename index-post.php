@@ -2,19 +2,16 @@
 include("conexion.php");
 $con = conexion();
 
-$resultado = pg_query($con, "SELECT current_database()");
-$fila = pg_fetch_row($resultado);
-echo $fila[0];
+$resultado = pg_query(
+    $con,
+    "SELECT table_schema, table_name
+     FROM information_schema.tables
+     WHERE table_name = 'persona'"
+);
+
+while ($fila = pg_fetch_assoc($resultado)) {
+    echo $fila["table_schema"] . "." . $fila["table_name"];
+}
+
 exit;
-
-$doc = $_POST["doc"];
-$nom = $_POST["nom"];
-$ape = $_POST["ape"];
-$dir = $_POST["dir"];
-$cel = $_POST["cel"];
-
-$sql = "insert into persona values(default,'$doc','$nom','$ape','$dir','$cel')";
-pg_query($con, $sql);
-
-header("location:index.php");
 ?>
