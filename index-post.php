@@ -2,6 +2,11 @@
 include("conexion.php");
 $con = conexion();
 
+$resultado = pg_query($con, "SELECT current_database()");
+$fila = pg_fetch_row($resultado);
+echo $fila[0];
+exit;
+
 $doc = $_POST["doc"];
 $nom = $_POST["nom"];
 $ape = $_POST["ape"];
