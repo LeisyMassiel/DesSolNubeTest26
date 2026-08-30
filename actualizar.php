@@ -1,17 +1,16 @@
 <?php
 
 include("conexion.php");
-
 $con = conexion();
 
-$id = $_POST["id"];
+$id  = $_POST["id"];
 $doc = $_POST["doc"];
 $nom = $_POST["nom"];
 $ape = $_POST["ape"];
 $dir = $_POST["dir"];
 $cel = $_POST["cel"];
 
-$sql = "UPDATE public.persona
+$sql = "UPDATE persona
         SET documento = $1,
             nombre = $2,
             apellido = $3,
@@ -20,21 +19,16 @@ $sql = "UPDATE public.persona
         WHERE idpersona = $6";
 
 $resultado = pg_query_params(
-    $con,$sql, array(
-        $doc,$nom,$ape,$dir,$cel,$id
-    )
+    $con,
+    $sql,
+    array($doc, $nom, $ape, $dir, $cel, $id)
 );
 
 if ($resultado) {
-
-    header("Location: listar.php?mensaje=actualizado");
-
+    header("Location: listar.php");
     exit;
-
 } else {
-
     echo "Error al actualizar el registro.";
-
 }
 
 ?>
