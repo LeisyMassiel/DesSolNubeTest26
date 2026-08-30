@@ -1,5 +1,7 @@
 <?php
+
 include("conexion.php");
+
 $con = conexion();
 
 $doc = $_POST["doc"];
@@ -8,8 +10,28 @@ $ape = $_POST["ape"];
 $dir = $_POST["dir"];
 $cel = $_POST["cel"];
 
-$sql = "insert into persona values(default,'$doc','$nom','$ape','$dir','$cel')";
-pg_query($con, $sql);
+$sql = "INSERT INTO public.persona
+        (documento, nombre, apellido, direccion, celular)
+        VALUES ($1, $2, $3, $4, $5)";
 
-header("location:index.php");
+$resultado = pg_query_params(
+    $con,
+    $sql,
+    array(
+        $doc,$nom,$ape,$dir,$cel
+    )
+);
+
+if ($resultado) {
+
+    header("Location: listar.php");
+
+    exit;
+
+} else {
+
+    echo "Error al registrar la persona.";
+
+}
+
 ?>
